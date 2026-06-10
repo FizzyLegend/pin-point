@@ -1,0 +1,660 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #0f172a;
+  --glass: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent: #0ea5e9;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --shadow-heavy: 0 20px 40px rgba(0,0,0,0.6);
+  --shadow-light: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Arrow Toggle */
+.mobile-arrow {
+    display: none; 
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+
+/* 🌟 UNIVERSAL GLASSMORPHISM */
+.glass { background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--glass-border); }
+.glass-card { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(25px); border: 1px solid rgba(14, 165, 233, 0.2); box-shadow: var(--shadow-heavy); border-radius: 16px; }
+
+/* 🌟 SVG FOCUS FIX (Kills the "Box" around countries) */
+svg path { outline: none !important; }
+
+/* 🌟 HEADER & DASHBOARD */
+.stats-bar { height: 80px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: relative; z-index: 1000; border-bottom: 1px solid var(--glass-border); }
+.brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    
+    /* 1. The Sky Blue to Teal Gradient */
+    /* 1. The Sky Blue to Teal Gradient */
+    background: linear-gradient(45deg, #0ea5e9, #14b8a6); 
+    -webkit-background-clip: text;
+    background-clip: text; /* 🌟 NEW: Added to satisfy the code editor! */
+    -webkit-text-fill-color: transparent;
+    /* 2. The Subtle Glow (Lighter and softer than the neon option) */
+    filter: drop-shadow(0 0 8px rgba(20, 184, 166, 0.5)); 
+    
+    margin: 0;
+}
+.stats-dashboard { display: flex; gap: 30px; background: rgba(0,0,0,0.25); padding: 8px 30px; border-radius: 40px; border: 1px solid var(--glass-border); }
+.stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 80px; position: relative; }
+.dropdown-trigger { cursor: pointer; transition: opacity 0.2s; }
+.dropdown-trigger:hover { opacity: 0.8; }
+.trigger-wrapper { display: flex; flex-direction: column; align-items: center; }
+.v-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+.v-value { font-size: 1rem; font-weight: 600; color: var(--text); }
+.accent { color: var(--accent); }
+.truncate { max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat-divider { width: 1px; height: 30px; background: var(--glass-border); align-self: center; }
+
+.signout-btn { background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-family: 'Poppins'; font-size: 0.8rem; font-weight: 500; transition: all 0.2s; }
+.signout-btn:hover { background: #ef4444; color: white; }
+
+/* 🌟 RESTORED: FIXED DROPDOWN MENUS */
+.glass-menu { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 12px; min-width: 220px; box-shadow: var(--shadow-heavy); z-index: 2000; overflow: hidden; }
+.dd-header { padding: 10px 15px; background: rgba(255,255,255,0.05); font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--glass-border); text-align: center; position: relative; z-index: 2; }
+.dd-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s; position: relative; z-index: 2; }
+.dd-item:hover { background: rgba(255,255,255,0.05); color: var(--accent); cursor: pointer; }
+.dd-item.locked { color: var(--text-muted); opacity: 0.6; }
+.dd-min { font-size: 0.7rem; color: var(--text-muted); }
+.dd-item.visited { font-weight: 500; color: var(--text); }
+.dd-item.unvisited { color: var(--text-muted); opacity: 0.6; } /* Removed pointer-events: none */
+.check { color: #2dd4bf; font-weight: bold; }
+
+/* Dropdown Filters */
+.dropdown-filters { display: flex; background: rgba(0,0,0,0.3); padding: 5px; border-bottom: 1px solid var(--glass-border); position: relative; z-index: 2; }
+.dropdown-filters button { flex: 1; background: transparent; border: none; color: var(--text-muted); font-size: 0.7rem; padding: 6px; cursor: pointer; border-radius: 4px; font-family: inherit; transition: all 0.2s; }
+.dropdown-filters button.active { background: rgba(255,255,255,0.1); color: var(--accent); font-weight: 600; }
+.dropdown-filters button:hover { color: white; }
+
+/* 🌟 MAIN LAYOUT */
+.main-content { display: flex; height: calc(100vh - 80px); position: relative; }
+.map-area { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
+.smooth-zoom g { transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important; }
+
+/* 🌟 PROFILE WIDGET */
+.profile-widget { position: absolute; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 40px; z-index: 500; box-shadow: var(--shadow-light); }
+.profile-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), #0284c7); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 1.2rem; }
+.profile-info { display: flex; flex-direction: column; }
+.profile-name { font-size: 0.85rem; font-weight: 600; }
+.profile-sub { font-size: 0.7rem; color: var(--text-muted); }
+
+/* 🌟 POPUP STYLES */
+.p-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.p-header h3 { margin: 0; font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+.close-x { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; transition: color 0.2s; }
+.close-x:hover { color: white; }
+
+.p-list { max-height: 250px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px; }
+.p-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+.p-row:hover { background: rgba(255,255,255,0.08); border-color: rgba(14, 165, 233, 0.5); transform: translateX(2px); }
+.p-row-info { display: flex; flex-direction: column; }
+.p-row-info span { font-size: 0.9rem; font-weight: 500; }
+.p-row-info small { font-size: 0.7rem; color: var(--accent); }
+.empty-msg { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 15px; }
+
+.p-add-trigger { width: 100%; padding: 10px; background: transparent; border: 1px dashed var(--text-muted); color: var(--text-muted); border-radius: 8px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.p-add-trigger:hover { border-color: var(--accent); color: var(--accent); background: rgba(14, 165, 233, 0.1); }
+
+/* 🌟 GRID GALLERY */
+.p-back { background: transparent; border: none; color: var(--text-muted); font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; padding: 0; transition: color 0.2s; }
+.p-back:hover { color: var(--accent); }
+/* 🌟 FIXED: Photo Grid Spacing & Overlaps */
+.photo-grid-mini { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; /* Increases the breathing room between photos */
+    max-height: 280px; 
+    overflow-y: auto; 
+    padding: 5px; /* Prevents scrollbar clipping */
+}
+
+.photo-square { 
+    position: relative; 
+    width: 100%;
+    aspect-ratio: 1/1; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    border: 1px solid var(--glass-border); 
+    background: rgba(0,0,0,0.5); 
+    display: block; /* Forces the container to hold its shape */
+}
+
+.photo-square img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: block; /* Kills the "inline text" overlap bug */
+    transition: transform 0.3s ease; 
+}
+
+.photo-square img:hover { 
+    transform: scale(1.15); 
+    cursor: pointer; 
+}
+.delete-photo-btn { position: absolute; top: 4px; right: 4px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.6rem; cursor: pointer; opacity: 0; transition: opacity 0.2s; display: flex; justify-content: center; align-items: center; }
+.photo-square:hover .delete-photo-btn { opacity: 1; }
+
+/* 🌟 FORMS & TAG DROPDOWNS */
+.p-form { display: flex; flex-direction: column; gap: 12px; }
+.p-form input[type="text"] { padding: 10px 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-family: inherit; font-size: 0.85rem; outline: none; }
+.p-form input[type="text"]:focus { border-color: var(--accent); }
+.p-form input[type="file"] { font-size: 0.75rem; color: var(--text-muted); }
+.save-btn { padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+.save-btn:hover { background: #0284c7; }
+.tag-input-container { position: relative; display: flex; flex-direction: column; }
+.tag-autocomplete-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border); border-radius: 6px; margin-top: 4px; max-height: 140px; overflow-y: auto; list-style: none; padding: 0; z-index: 10; }
+.tag-autocomplete-dropdown li { padding: 10px 12px; font-size: 0.85rem; color: var(--text); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.tag-autocomplete-dropdown li:hover { background: rgba(255,255,255,0.1); color: var(--accent); }
+
+/* 🌟 SIDEBAR */
+.sidebar-toggle { position: absolute; right: 340px; top: 50%; transform: translateY(-50%); width: 24px; height: 60px; border-radius: 10px 0 0 10px; border-right: none; color: white; cursor: pointer; z-index: 100; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.sidebar-toggle.closed { right: 0; }
+
+.glass-sidebar { width: 340px; height: 100%; padding: 25px; display: flex; flex-direction: column; transition: margin-right 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; border-left: 1px solid var(--glass-border); }
+.glass-sidebar.closed { margin-right: -340px; }
+
+.search-glass { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-family: inherit; margin-bottom: 15px; outline: none; }
+.search-glass:focus { border-color: var(--accent); }
+
+/* TAG FILTERS */
+.filter-section { margin-bottom: 20px; }
+.filter-title { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block; }
+
+/* 🌟 UPDATED: Expandable Chips Logic */
+.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; transition: max-height 0.3s ease-in-out; }
+.filter-chips.collapsed { max-height: 60px; overflow: hidden; } /* Perfectly calculates height for exactly 2 lines */
+.filter-chips.expanded { max-height: 300px; overflow: hidden; }
+
+.filter-chip { padding: 4px 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); border-radius: 20px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.filter-chip:hover { background: rgba(255,255,255,0.1); color: white; }
+.filter-chip.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* 🌟 NEW: Show More Button */
+.tag-toggle-btn { background: none; border: none; color: var(--accent); font-size: 0.7rem; font-weight: 600; cursor: pointer; padding: 8px 0 0 0; font-family: inherit; transition: opacity 0.2s; text-align: left; }
+.tag-toggle-btn:hover { opacity: 0.8; text-decoration: underline; }
+
+.c-list { flex: 1; overflow-y: auto; padding-right: 5px; }
+.c-card { margin-bottom: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; opacity: 0; animation: fadeIn 0.4s forwards; }
+.c-card-head { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; font-size: 0.95rem; font-weight: 500; }
+.c-card-head:hover { background: rgba(255,255,255,0.05); }
+.badge { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
+/* 🌟 NUKED & FIXED: Sidebar Trip Pill */
+/* 🌟 BULLETPROOF TRIP PILL LAYOUT */
+/* 🌟 THE GRID FIX: Bulletproof Trip Pill */
+/* 🌟 THE ULTIMATE OVERRIDE: Resetting the Sidebar List */
+.c-card-body {
+    display: block !important; /* Forces the container to span full width */
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding:12px !important;
+    background: rgba(0,0,0,0.2) !important;
+    border-top: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+.t-pill {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important; /* Forces the blue box to stretch edge-to-edge */
+    box-sizing: border-box !important;
+    padding:10px 12px !important;
+    margin: 0 0 8px 0 !important; /* Kills any weird shifting margins */
+    background: rgba(14, 165, 233, 0.15) !important;
+    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+    border-radius: 8px !important;
+    float: none !important;
+}
+
+.t-pill-left {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+.t-name-text {
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+}
+
+.t-tag-badge {
+    color: #0ea5e9 !important;
+    font-weight: 600 !important;
+    font-size: 0.7rem !important;
+    flex-shrink: 0 !important;
+}
+
+.t-photo-icon {
+    font-size: 0.75rem !important;
+    flex-shrink: 0 !important;
+}
+
+.delete-trip-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8 !important;
+    cursor: pointer !important;
+    font-size: 1.1rem !important;
+    padding: 0 0 0 10px !important;
+    flex-shrink: 0 !important;
+}
+
+.delete-trip-btn:hover { color: #ef4444 !important; }
+
+.s-footer { margin-top: 20px; text-align: center; border-top: 1px solid var(--glass-border); padding-top: 15px; }
+.quote { font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin: 0; }
+.quote span { display: block; font-style: normal; margin-top: 5px; font-weight: 600; color: var(--text); }
+
+/* 🌟 AUTH SCREEN */
+.auth-container { height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
+.auth-card { width: 100%; max-width: 400px; padding: 40px; text-align: center; }
+.auth-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px; }
+.auth-form { display: flex; flex-direction: column; gap: 15px; }
+.auth-form input { padding: 12px 15px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: white; outline: none; font-family: inherit; }
+.auth-form input:focus { border-color: var(--accent); }
+.auth-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px; transition: background 0.2s; }
+.auth-btn:hover { background: #0284c7; }
+.toggle-text { margin-top: 20px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; transition: color 0.2s; }
+.toggle-text:hover { color: var(--text); text-decoration: underline; }
+.auth-error { color: #ef4444; font-size: 0.8rem; margin: 0; }
+
+/* 🌟 ANIMATIONS & UTILS */
+.anim-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+.anim-slide-down { animation: slideDown 0.2s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* Reverts the sidebar drop to just go straight down */
+@keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Creates a special centered drop exclusively for the top menus */
+@keyframes dropdownSlide { from { opacity: 0; transform: translate(-50%, -5px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.glass-menu.anim-slide-down { animation: dropdownSlide 0.2s ease-out forwards; }
+
+/* 🌟 ONBOARDING OVERLAY (Perfect Centering + Pulse) */
+/* 🌟 ONBOARDING OVERLAY (Dead-Center & Floating) */
+.onboarding-overlay {
+    position: absolute;
+    top: 54%;  /* Pushes it exactly halfway down the screen */
+    left: 40.2%; /* Pushes it exactly halfway across the screen */
+    transform: translate(-50%, -50%); /* Pulls it back to true center */
+    z-index: 1000; /* Keeps it above the map */
+    pointer-events: none; /* CRITICAL: Lets you click the map right through the text! */
+    width: 100%;
+    text-align: center;
+}
+
+.pulse {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    margin: 0;
+    animation: pulse 2s infinite; /* Restored from your original code! */
+}
+
+@keyframes pulse { 
+    0% { opacity: 0.3; } 
+    50% { opacity: 0.8; } 
+    100% { opacity: 0.3; } 
+}
+.scroll-hide::-webkit-scrollbar { display: none; }
+
+/* 🌟 MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .main-content { flex-direction: column; }
+  .stats-bar { height: auto; padding: 15px; flex-direction: column; gap: 15px; border-bottom: none; }
+  /* 3. FIX THE STATS OVERFLOW (The 2-Row Layout) */
+    .stats-dashboard {
+        grid-column: 1 / -1; 
+        grid-row: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Rank and Countries side-by-side */
+        gap: 8px;
+        width: 100%;
+    }
+
+    .stat-item {
+        padding: 5px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05); /* Adds a subtle box behind them */
+        border-radius: 8px;
+    }
+
+    .stat-item:last-child {
+        grid-column: 1 / -1; /* 🌟 Forces 'Latest Trip' to stretch across the whole bottom row! */
+    }
+
+    .stat-item .v-label {
+        font-size: 0.65rem; 
+    }
+
+    .stat-item .v-value {
+        font-size: 0.8rem; /* Slightly smaller to fit better */
+        white-space: normal; /* 🌟 THE FIX: Allows long names to wrap to a second line safely! */
+        word-wrap: break-word;
+        line-height: 1.2;
+        margin-top: 2px;
+    }
+
+    .map-container { 
+        flex-grow: 1; 
+        min-height: 50vh;
+        transform: translateY(-8vh); /* 🌟 Physically pushes the globe higher on the screen */
+    }
+
+    .sidebar.collapsed {
+        transform: translateY(calc(100% - 40px)); 
+        overflow: hidden; /* Stops you from accidentally scrolling it while it's down */
+    }
+
+    /* FORCE-CENTER THE DRAG HANDLE */
+    .mobile-drag-handle {
+        width: 50px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 10px;
+        
+        /* 🌟 The Bulletproof Centering Trick */
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        margin-top: 10px;
+        margin-bottom: 15px;
+        cursor: pointer;
+    }
+
+    /* 4. COMPRESS THE DROPDOWNS & FILTERS */
+    .dropdown {
+        top: 175px; /* Pushed down slightly to account for the new 2-row stats bar */
+        padding: 10px; /* Tighter padding to save space */
+    }
+
+    .dropdown-filters {
+        display: flex;
+        flex-direction: row; /* 🌟 Forces exactly 1 row */
+        gap: 5px;
+        width: 100%;
+    }
+
+    .dropdown-filters button {
+        flex: 1; /* Makes All, Visited, and Not Visited exactly equal width */
+        padding: 6px 2px;
+        font-size: 0.7rem; /* Shrinks text to fit without wrapping */
+        white-space: nowrap;
+    }
+
+    .dd-item {
+        padding: 8px 10px; /* 🌟 Compresses the list items so no scrollbar is needed */
+        font-size: 0.85rem;
+    }
+  
+  .glass-sidebar {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 45vh; 
+    border-radius: 25px 25px 0 0; border-left: none; border-top: 1px solid var(--glass-border);
+    z-index: 1001; margin-right: 0; transition: transform 0.3s ease-in-out;
+  }
+  .glass-sidebar.closed { transform: translateY(100%); margin-right: 0; }
+  .sidebar-toggle { top: auto; bottom: 46vh; right: 20px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--glass-border); transform: none; z-index: 1002; }
+  .sidebar-toggle.closed { bottom: 20px; }
+  
+  .country-popup { width: 90% !important; left: 5% !important; top: 20vh !important; }
+  .profile-widget { top: 20px; bottom: auto; left: 20px; }
+  .onboarding-overlay { left: 50%; top: 40%; text-align: center; }
+}
+
+/* 🌟 MODERN FILE UPLOAD BUTTON */
+input[type="file"] {
+  color: var(--text-muted, #94a3b8); /* Styles the "No file chosen" text */
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  padding: 8px 16px;
+  margin-right: 15px;
+  background: rgba(14, 165, 233, 0.1); /* Subtle transparent blue */
+  border: 1px solid rgba(14, 165, 233, 0.3); /* Subtle blue border */
+  color: var(--accent, #0ea5e9);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: inherit;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--accent, #0ea5e9); /* Solid blue on hover */
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+/* 🌟 DROPDOWN SEARCH BAR */
+.dd-search {
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--glass-border);
+}
+.dd-search input {
+    width: 100%;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    color: white;
+    font-size: 0.75rem;
+    font-family: inherit;
+    outline: none;
+    transition: border 0.2s;
+}
+.dd-search input:focus {
+    border-color: var(--accent);
+    background: rgba(0,0,0,0.3);
+}
+
+/* 🌟 TRIP DETAILS & DASHBOARD BUTTONS */
+.trip-detail-header {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+}
+.trip-detail-header h4 { 
+    margin: 0 0 5px 0; 
+    font-size: 1.2rem; 
+    color: white; 
+    text-decoration: underline;
+    text-underline-offset: 4px; /* Pushes the underline down slightly */
+}
+.td-tag { color: var(--accent); font-size: 0.8rem; font-weight: 600; }
+.td-label { 
+    font-size: 0.85rem; 
+    color: var(--text-muted); 
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
+    text-decoration: underline;
+    text-underline-offset: 4px; 
+}
+
+.empty-photo-box {
+    padding: 20px;
+    text-align: center;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+.empty-photo-box p { color: var(--text-muted); font-size: 0.85rem; margin: 0; }
+
+.open-dashboard-btn {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: rgba(14, 165, 233, 0.1) !important;
+    border: 1px dashed rgba(14, 165, 233, 0.4) !important;
+    color: var(--accent) !important;
+    padding: 10px !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    margin: 0 0 12px 0 !important;
+    transition: all 0.2s !important;
+    font-family: inherit !important;
+}
+.open-dashboard-btn:hover {
+    background: rgba(14, 165, 233, 0.2) !important;
+    color: white !important;
+    border-color: var(--accent) !important;
+}
+
+/* 🌟 LOADING OVERLAY */
+.loading-overlay {
+    position: absolute;
+    top: 54%;
+    left: 40.2%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    background: rgba(15, 23, 42, 0.7);
+    padding: 20px 40px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    pointer-events: none; /* Lets clicks pass through if needed */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.loading-overlay h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* ========================================= */
+/* 📱 MOBILE RESPONSIVENESS (Max Width: 768px) */
+/* ========================================= */
+
+/* ========================================= */
+/* 📱 ADVANCED MOBILE APP LAYOUT (Max: 768px)*/
+/* ========================================= */
+
+@media (max-width: 768px) {
+    /* 1. LOCK THE SCREEN HEIGHT */
+    .app-container {
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; 
+    }
+    /* HIDE QUOTE ON MOBILE */
+    .quote { 
+        display: none !important;
+    }
+    /* 2. COMPRESS THE HEADER INTO A TIGHT GRID */
+    .stats-bar {
+        display: grid;
+        grid-template-columns: 1fr auto; 
+        gap: 10px;
+        padding: 10px 15px;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    .header-left { grid-column: 1; grid-row: 1; }
+    .header-right { grid-column: 2; grid-row: 1; }
+
+    .stat-divider { display: none; }
+    .brand { font-size: 1.5rem; }
+    
+    .stats-dashboard {
+        grid-column: 1 / -1; 
+        grid-row: 2;
+        display: flex;
+        flex-direction: row; 
+        justify-content: space-between;
+        gap: 5px; /* Tighter spacing */
+        width: 100%;
+    }
+
+    .stat-item {
+        padding: 5px;
+        flex: 1; /* Forces all 3 items to take exactly 1/3 of the screen */
+        text-align: center;
+        min-width: 0; /* Allows text to shrink instead of overflowing */
+    }
+
+    .stat-item .v-label {
+        font-size: 0.65rem; /* Shrink the grey label text */
+    }
+
+    .stat-item .v-value {
+        font-size: 0.85rem; /* Shrink the blue value text */
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis; /* Adds '...' if text is still slightly too long */
+    }
+
+    /* 3. MAXIMIZE THE MAP AREA */
+    .map-container { 
+        flex-grow: 1; 
+        /* 🌟 Pushes the physical globe up so it doesn't hide behind the menu */
+        padding-bottom: 50vh; 
+    }
+
+    /* 4. THE 50% BOTTOM SHEET (SIDEBAR) */
+    .sidebar { 
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50vh; 
+        border-radius: 24px 24px 0 0; 
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        z-index: 3000;
+        
+        /* 🌟 THE GLASS EFFECT */
+        background: rgba(15, 23, 42, 0.7); /* Translucent space blue */
+        backdrop-filter: blur(12px); /* Blurs the map behind it */
+        -webkit-backdrop-filter: blur(12px); /* Needed for Apple devices */
+        
+        overflow-y: auto; 
+        padding: 20px; 
+        box-sizing: border-box; 
+    }
+    /* Flip the arrows on mobile */
+    .desktop-arrow {
+        display: none;
+    }
+    .mobile-arrow {
+        display: inline;
+    }
+    /* 5. Hide the profile widget on mobile to save map space */
+    .profile-widget {
+        display: none;
+    }
+}
